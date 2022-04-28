@@ -1,3 +1,5 @@
+
+
 #required otherwise circular dependency between IAM and Lambda
 locals {
   /* lambda_function_name                  = "${var.project}-${var.lambda_function_name}-${terraform.workspace}" */
@@ -6,10 +8,19 @@ lambda_function_name                  = var.lambda_function_name
   dynamodb_tables_count                 = length(var.dynamodb_table_properties)
 }
 
+/* provier and region */
 provider "aws" {
   region     = "${var.region}"
 }
 
+
+/* Create networking */
+module "networking" {
+  source    = "./modules/services/networking"
+  namespace = var.namespace
+}
+
+/* lamdba module */
 module "lambda" {
   source                                = "./modules/services/lambda"
 
@@ -43,6 +54,8 @@ module "lambda" {
   tags                                  = var.tags
 }
 
+
+/* API Gateway module */
 module "apigw" {
   source                                = "./modules/services/api-gateway"
 
@@ -60,6 +73,7 @@ module "apigw" {
 
 
 
+/* dynamodb module */
 module "dynamodb" {
   source                                = "./modules/services/dynamodb"
 
@@ -74,6 +88,8 @@ module "dynamodb" {
   tags                                  = var.tags
 }
 
+
+/* IAM Module */
 module "iam" {
   source = "./modules/global/iam"
 

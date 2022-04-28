@@ -1,3 +1,10 @@
+
+
+variable "namespace"{
+  type=string
+  default="TF-Lambda"
+}
+
 #TAGS
 variable "tags" {
   type = map
