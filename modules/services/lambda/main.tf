@@ -1,5 +1,5 @@
 # First, we need a role to play with Lambda
-resource "aws_iam_role" "iam_role_for_lambda" {
+/* resource "aws_iam_role" "iam_role_for_lambda" {
   name = "iam_role_for_lambda"
 
   assume_role_policy = <<EOF
@@ -17,7 +17,7 @@ resource "aws_iam_role" "iam_role_for_lambda" {
   ]
 }
 EOF
-}
+} */
 
 locals {
   s3_bucket                   = var.lambda_code_s3_bucket_use_existing ? var.lambda_code_s3_bucket_existing : join("", aws_s3_bucket.lambda_repo.*.bucket)
@@ -57,8 +57,8 @@ resource "aws_lambda_function" "lambda_s3" {
   description                 = var.lambda_description
   runtime                     = var.lambda_runtime
   handler                     = var.lambda_handler
-  /* role                        = var.lambda_role */
-   role    = "${aws_iam_role.iam_role_for_lambda.arn}"
+  role                        = var.lambda_role
+   /* role    = "${aws_iam_role.iam_role_for_lambda.arn}" */
   timeout                     = var.lambda_timeout
   /* source_code_hash            = aws_s3_bucket_object.lambda_dist.etag */
   source_code_hash= aws_s3_bucket_object.lambda_dist[count.index]

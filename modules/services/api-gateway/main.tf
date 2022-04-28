@@ -28,35 +28,32 @@ resource "aws_api_gateway_resource" "messages_resource" {
   rest_api_id = aws_api_gateway_rest_api.api.id
 }
 
+
+
+
+
+/* Step:-1, POST   Creating  POST Request */
 resource "aws_api_gateway_method" "request_method" {
-  /* count = var.api_gw_disable_resource_creation ? 0 : 1 */
   authorization = "NONE"
   http_method = var.method
   resource_id = "${aws_api_gateway_resource.messages_resource.id}"
-  /* resource_id = aws_api_gateway_resource.messages_resource[count.index].id  */
-
   rest_api_id = aws_api_gateway_rest_api.api.id
 }
 
+/* Step:- 2, POST  ingtegration */
 resource "aws_api_gateway_integration" "request_method_integration" {
-  /* count = var.api_gw_disable_resource_creation ? 0 : 1 */
   http_method = "${aws_api_gateway_method.request_method.http_method}"
-  /* http_method =  aws_api_gateway_method.request_method[count.index].http_method */
   resource_id = "${aws_api_gateway_resource.messages_resource.id}"
-  /* resource_id =  aws_api_gateway_resource.messages_resource[count.index].id */
   rest_api_id = aws_api_gateway_rest_api.api.id
   type = "AWS_PROXY"
   uri = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/${var.lambda_arn}/invocations"
-  
   integration_http_method = "POST"
 }
 
+/* Step:- 3, POST method response */
 resource "aws_api_gateway_method_response" "response_method" {
-  /* count = var.api_gw_disable_resource_creation ? 0 : 1 */
   http_method = "${aws_api_gateway_integration.request_method_integration.http_method}"
-  /* http_method = aws_api_gateway_integration.request_method_integration[count.index].http_method */
   resource_id = "${aws_api_gateway_resource.messages_resource.id}"
-  /* resource_id = aws_api_gateway_resource.messages_resource[count.index].id */
   rest_api_id = aws_api_gateway_rest_api.api.id
   status_code = "200"
   response_models = {
@@ -64,17 +61,19 @@ resource "aws_api_gateway_method_response" "response_method" {
   }
 }
 
+/* Step:-  4, POST integration response */
 resource "aws_api_gateway_integration_response" "response_method_integration" {
-  /* count = var.api_gw_disable_resource_creation ? 0 : 1 */
   http_method ="${aws_api_gateway_method_response.response_method.http_method}"
-  /* http_method = aws_api_gateway_method_response.response_method[count.index].http_method */
   resource_id = "${aws_api_gateway_resource.messages_resource.id}"
-  /* resource_id = aws_api_gateway_method_response.response_method[count.index].id */
   rest_api_id = aws_api_gateway_rest_api.api.id
   status_code = "${aws_api_gateway_method_response.response_method.status_code}"
-  /* status_code = aws_api_gateway_method_response.response_method[count.index].status_code */
 }
 
+
+/* Customized Routes */
+
+
+/* lambda invocation */
 resource "aws_lambda_permission" "apigw-lambda-allow" {
   action = "lambda:InvokeFunction"
   function_name = var.lambda_name

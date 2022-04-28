@@ -17,9 +17,13 @@ exports.handler = async (event) => {
         action
     } = body;
 
-    switch (action) {
+    const method=event.httpMethod;
 
-        case 'create':
+     
+
+    switch (method) {
+
+        case  "POST":
             try {
                 const {
                     first_name,
@@ -54,7 +58,7 @@ exports.handler = async (event) => {
 
 
             // Reaad all the students
-        case 'read':
+        case 'GET':
 
             try {
                 const {
@@ -92,7 +96,7 @@ exports.handler = async (event) => {
 
 
             // Update student
-        case 'update':
+        case 'PUT':
             // code
 
             try {
@@ -138,7 +142,7 @@ exports.handler = async (event) => {
             break;
 
             // Delete Student
-        case 'delete':
+        case 'DELETE':
             // code
 
             try {

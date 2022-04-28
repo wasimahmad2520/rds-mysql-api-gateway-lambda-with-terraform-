@@ -37,3 +37,23 @@ variable "dependency_list" {
   description = "Deployment dependency list"
   type = list
 }
+
+/* route list */
+
+variable "routes"{
+  type=list
+  default=[
+    /* {
+    path="student",auth="NONE",method="POST",type="LAMBDA_PROXY",status_code="200"
+    }, */
+    {
+    path="student",auth="NONE",method="GET",type="LAMBDA_PROXY",status_code="200"
+    },
+    {
+    path="student",auth="NONE",method="PUT",type="LAMBDA_PROXY",status_code="200"
+    },
+    {
+    path="student",auth="NONE",method="DELETE",type="LAMBDA_PROXY",status_code="200"
+    },
+  ]
+}
