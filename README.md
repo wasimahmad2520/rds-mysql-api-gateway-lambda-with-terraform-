@@ -46,7 +46,7 @@ Exports S3 bucket to allow usage by multiple Lambda's but given `lambda_code_s3_
 ### MySQL
 
 This module is optional. Lambda is created with R/W permission for MySQL to allow Lambda creation of tables or optionally to create them before-hand with this script.
-- This module by default, if created allows accompanying Lambda access to `dynamodb:PutItem`, `dynamodb:DescribeTable`, `dynamodb:DeleteItem`, `dynamodb:GetItem`, `dynamodb:Scan`, `dynamodb:Query` all DynamoDB tables.
+- This module by default, if created allows accompanying Lambda access create, read, update and delete entries in mysql.
 
 
 ## Deployment
