@@ -26,7 +26,7 @@ variable "environment_variables" {
 
 #Global
 variable "region" {
-  description = "Region to deploy in"
+  description = "Region to deploy infrasture in"
   default = "us-west-2"
 }
 
