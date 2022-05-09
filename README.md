@@ -1,6 +1,6 @@
-# Terraform AWS API Gateway Lambda RDS MySQL
+# Terraform AWS VPC API Gateway Lambda RDS MySQL
 
-### Terraform module for AWS API Gateway Lambda MySQL infrastructure
+### Terraform module for VPC, EC2, NACL, Security Group, IAM, SSH, AWS API Gateway, Lambda and RDS MySQL 
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 ![stability-stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)
 ![Commitizen-friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)
@@ -12,11 +12,13 @@
 * [Example](#example)
 
 ## Features
-Terraform module which deploys a serverless HTTP endpoint backed by AWS API Gateway, Lambda & RDS MySQL
+Terraform module which deploys a serverless HTTP endpoint in a vpc backed by AWS API Gateway, Lambda & RDS MySQL.
+the RDS MySQL database is automated by using ec2.
+
  
 ***Attention***
 
-Starting from version 1.15.0, this module targets Terraform 0.12+. If you are using Terraform <=v0.11 you must use up to version 1.14.0.
+Starting from version v1.1.7, this module targets Terraform v1.1.7+. If you are using Terraform <=v0.11 you must use up to version v1.1.7.
 
 ### API Gateway
 
