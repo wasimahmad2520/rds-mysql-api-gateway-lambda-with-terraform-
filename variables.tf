@@ -210,3 +210,23 @@ variable "dynamodb_table_ttl" {
   default = [[]]
   description = "List of list of maps representing each table local secondary index list. Required due to current HCL limitations"
 }
+
+/* zipping lambda source files */
+
+variable "source_dir"{
+ type = string
+ default="./advanced_student"
+}
+
+
+variable "output_path"{
+ type = string
+ default="./advanced_student.zip"
+}
+
+
+variable "type"{
+ type = string
+ default="zip"
+}
+

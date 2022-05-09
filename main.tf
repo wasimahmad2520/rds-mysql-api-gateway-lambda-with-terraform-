@@ -44,7 +44,6 @@ module "ssh-key" {
 }
 
 /* RDS */
-
 module "rds" {
   source    = "./modules/services/rds"
   namespace = var.namespace
@@ -65,11 +64,13 @@ module "ec2" {
   rds=module.rds.rds
 }
 
-
-
-
-
-
+/* zip the source code */
+module "zip_code" {
+  source       = "./modules/global/zip_source_code"
+  source_dir   =   var.source_dir
+  output_path  =   var.output_path
+  type         =   var.type
+}
 
 
 /* lamdba module */
@@ -84,7 +85,7 @@ module "lambda" {
   lambda_runtime                        = var.lambda_runtime
   lambda_handler                        = var.lambda_handler
   lambda_timeout                        = var.lambda_timeout
-  lambda_file_name                      = "script.zip"
+  lambda_file_name                      = "advanced_student.zip"
   lambda_code_s3_bucket_existing        = var.lambda_code_s3_bucket_existing
   lambda_code_s3_bucket_new             = var.lambda_code_s3_bucket_new
   lambda_code_s3_bucket_use_existing    = var.lambda_code_s3_bucket_use_existing
