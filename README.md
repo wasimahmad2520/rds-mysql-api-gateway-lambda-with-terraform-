@@ -12,7 +12,7 @@
 * [Example](#example)
 
 ## Features
-Terraform module which deploys a serverless HTTP endpoint backed by AWS API Gateway, Lambda & DynamoDB
+Terraform module which deploys a serverless HTTP endpoint backed by AWS API Gateway, Lambda & RDS MySQL
  
 ***Attention***
 
