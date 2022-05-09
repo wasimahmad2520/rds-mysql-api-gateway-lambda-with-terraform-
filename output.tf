@@ -1,3 +1,10 @@
+
+output "rds_endpoint"{
+  value=module.rds.rds.address
+  sensitive = false
+}
+
+
 #API Gateway
 output "api_gw_api_url" {
   value = module.apigw.api_url
@@ -48,7 +55,7 @@ output "lambda_s3_bucket" {
   value = module.lambda.lambda_s3_bucket
 }
 
-output "dynamodb_table_name" {
+/* output "dynamodb_table_name" {
   value = module.dynamodb.dynamodb_table_names
 }
 
@@ -66,4 +73,4 @@ output "dynamodb_table_arns" {
 
 output "dynamodb_table_stream_arns" {
   value = [module.dynamodb.dynamodb_table_stream_arns]
-}
+} */

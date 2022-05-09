@@ -29,12 +29,22 @@ resource "aws_iam_role" "lambda-role" {
 }
 
 
-/* to access dynamodb */
+/* child 1:- to access dynamodb */ 
 resource "aws_iam_role_policy" "lambda_policy" {
   name = "lambda_policy"
   role = aws_iam_role.lambda-role.id
   policy = file("${path.module}/new-dynamodb-policy.json")
 }
+
+/* child 2:- to be place in vpc */
+resource "aws_iam_role_policy" "lambda_vpc_policy" {
+  name = "lambda_vpc_policy"
+  role = aws_iam_role.lambda-role.id
+  policy = file("${path.module}/lambda-in-vpc-role.json")
+}
+
+
+
 
 
 

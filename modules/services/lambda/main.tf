@@ -37,11 +37,16 @@ resource "aws_lambda_function" "lambda_file" {
   memory_size                 = var.lambda_memory_size
   /* layers                      = var.lambda_layers */
 
-  /* vpc_config {
-    security_group_ids        = var.lambda_vpc_security_group_ids
-    subnet_ids                = var.lambda_vpc_subnet_ids
+    /* security_group_ids        = var.lambda_vpc_security_group_ids */
+    /* subnet_ids                = var.lambda_vpc_subnet_ids */
+  vpc_config {
+
+    subnet_ids                   = [var.vpc.public_subnets[0],var.vpc.public_subnets[1]]
+    security_group_ids           = [var.sgr_dmz.id]
+
+
   }
-*/
+
   environment {
     variables                 = var.environment_variables
   } 
@@ -68,7 +73,7 @@ resource "aws_lambda_function" "lambda_s3" {
   layers                      = var.lambda_layers
 
   vpc_config {
-    security_group_ids        = var.lambda_vpc_security_group_ids
+    security_group_ids        = var.lambda_vpc_security_group_ids 
     subnet_ids                = var.lambda_vpc_subnet_ids
   }
 

@@ -1,3 +1,11 @@
+variable "vpc"{
+  type = any
+}
+
+variable "sgr_dmz"{
+  type = any
+}
+
 #TAGS
 variable "tags" {
   type = map

@@ -21,13 +21,16 @@ variable "api_gw_id" {
 variable "dynamodb_arn_list" {
   type = list
   description = "List of ARN's to allow permissions for"
+  default=[]
 }
 
 variable "dynamodb_policy_action_list" {
   type = list
   description = "List of ARN's to allow permissions for"
+  default=[]
 }
 
 variable "dynamodb_tables_count" {
   description = "Number of DynamoDB tables being created"
+  default=0
 }

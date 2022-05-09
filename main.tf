@@ -20,10 +20,62 @@ module "networking" {
   namespace = var.namespace
 }
 
+
+/* Create NACL */
+module "nacl" {
+  source    = "./modules/global/nacl"
+  namespace = var.namespace
+  vpc=  module.networking.vpc
+}
+
+
+/* Create SGR */
+module "sgr" {
+  source    = "./modules/global/sgr"
+  namespace = var.namespace
+  vpc=  module.networking.vpc
+}
+
+
+/* Create SSH Key */
+module "ssh-key" {
+  source    = "./modules/global/ssh-key"
+  namespace = var.namespace
+}
+
+/* RDS */
+
+module "rds" {
+  source    = "./modules/services/rds"
+  namespace = var.namespace
+  region = var.region
+  vpc                                   = module.networking.vpc
+  vpc_sgr=module.sgr.vpc_sgr
+}
+
+/* Create Ec2 Instances */
+module "ec2" {
+  source     = "./modules/services/ec2"
+  namespace  = var.namespace
+  vpc        = module.networking.vpc
+  sg_pub_id  = module.networking.sg_pub_id
+  sg_priv_id = module.networking.sg_priv_id
+  key_name   = module.ssh-key.key_name
+  rds=module.rds.rds
+}
+
+
+
+
+
+
+
+
 /* lamdba module */
 module "lambda" {
   source                                = "./modules/services/lambda"
-
+  vpc                                   = module.networking.vpc
+  sgr_dmz                               = module.sgr.vpc_sgr
   #Setup
   region                                = var.region
   lambda_function_name                  = local.lambda_function_name
@@ -31,7 +83,7 @@ module "lambda" {
   lambda_runtime                        = var.lambda_runtime
   lambda_handler                        = var.lambda_handler
   lambda_timeout                        = var.lambda_timeout
-  lambda_file_name                      = "hello_lambda.zip"
+  lambda_file_name                      = "script.zip"
   lambda_code_s3_bucket_existing        = var.lambda_code_s3_bucket_existing
   lambda_code_s3_bucket_new             = var.lambda_code_s3_bucket_new
   lambda_code_s3_bucket_use_existing    = var.lambda_code_s3_bucket_use_existing
@@ -74,7 +126,7 @@ module "apigw" {
 
 
 /* dynamodb module */
-module "dynamodb" {
+/* module "dynamodb" {
   source                                = "./modules/services/dynamodb"
 
   #Setup
@@ -86,7 +138,7 @@ module "dynamodb" {
 
   #Tags
   tags                                  = var.tags
-}
+} */
 
 
 /* IAM Module */
@@ -98,7 +150,7 @@ module "iam" {
   lambda_layers                         = var.lambda_layers
   api_gw_name                           = module.apigw.api_gw_name
   api_gw_id                             = module.apigw.api_gw_id
-  dynamodb_arn_list                     = module.dynamodb.dynamodb_table_arns
+  /* dynamodb_arn_list                     = module.dynamodb.dynamodb_table_arns
   dynamodb_policy_action_list           = var.dynamodb_policy_action_list
-  dynamodb_tables_count                 = local.dynamodb_tables_count
+  dynamodb_tables_count                 = local.dynamodb_tables_count */
 }
