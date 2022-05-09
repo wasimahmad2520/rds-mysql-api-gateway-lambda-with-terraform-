@@ -53,6 +53,7 @@ module "rds" {
   vpc_sgr=module.sgr.vpc_sgr
 }
 
+
 /* Create Ec2 Instances */
 module "ec2" {
   source     = "./modules/services/ec2"

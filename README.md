@@ -1,6 +1,6 @@
-# Terraform AWS API Gateway Lambda DynamoDB
+# Terraform AWS API Gateway Lambda RDS MySQL
 
-### Terraform module for AWS API Gateway Lambda DynamoDB infrastructure
+### Terraform module for AWS API Gateway Lambda MySQL infrastructure
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 ![stability-stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)
 ![Commitizen-friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)
@@ -21,7 +21,7 @@ Starting from version 1.15.0, this module targets Terraform 0.12+. If you are us
 ### API Gateway
 
 This module is created with a single stage that is given as parameter.
-The default path that is created is `/api/messages`. This can be expanded upon as the API GW ID, resources and methods are exposed.
+The default path that is created is `/api/student`. This can be expanded upon as the API GW ID, resources and methods are exposed.
 If you do not wish to have the default values, you can specify `api_gw_disable_resource_creation = true` and you can create the paths desired. 
 Allows specification of Endpoint Configuration Type via variable `api_gw_endpoint_configuration_type` with `EDGE`, `REGIONAL` or `PRIVATE`. Defaults to `EDGE`
 
@@ -43,9 +43,9 @@ Exports S3 bucket to allow usage by multiple Lambda's but given `lambda_code_s3_
 - This module by default, if created allows accompanying Lambda access to `dynamodb:PutItem`, `dynamodb:DescribeTable`, `dynamodb:DeleteItem`, `dynamodb:GetItem`, `dynamodb:Scan`, `dynamodb:Query` all DynamoDB tables.
 
 
-### DynamoDB
+### MySQL
 
-This module is optional. Lambda is created with R/W permission for DynamoDB to allow Lambda creation of tables or optionally to create them before-hand with this script.
+This module is optional. Lambda is created with R/W permission for MySQL to allow Lambda creation of tables or optionally to create them before-hand with this script.
 - This module by default, if created allows accompanying Lambda access to `dynamodb:PutItem`, `dynamodb:DescribeTable`, `dynamodb:DeleteItem`, `dynamodb:GetItem`, `dynamodb:Scan`, `dynamodb:Query` all DynamoDB tables.
 
 
@@ -55,27 +55,4 @@ This module is optional. Lambda is created with R/W permission for DynamoDB to a
 3. Create/Select Terraform workspace before deployment
 4. Run `terraform plan -var-file="<.tfvars file>` to check for any errors and see what will be built
 5. Run `terraform apply -var-file="<.tfvars file>` to deploy infrastructure
-
-**Example Deployment Script**
-```sh
-#!/usr/bin/env bash
-
-if [[ ! -d .terraform ]]; then
-  terraform init
-fi
-if ! terraform workspace list 2>&1 | grep -qi "$ENVIRONMENT"; then
-  terraform workspace new "$ENVIRONMENT"
-fi
-terraform workspace select "$ENVIRONMENT"
-terraform get
-terraform plan -var-file=$1
-terraform apply -var-file=$1
-```
-
-## Example
-```hcl-terraform
-i have assinged fixed values by default.
-```
-
-
 
